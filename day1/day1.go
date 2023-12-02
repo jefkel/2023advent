@@ -48,17 +48,15 @@ func main() {
 	fileScanner.Split(bufio.ScanLines)
 
 	for fileScanner.Scan() {
-		// Replace all spelled numbers with digits
-		replacer := strings.NewReplacer(ForwardKey...)
-		partBNumStr := replacer.Replace(fileScanner.Text())
-
-		// Reverse String
-		var empty string = ""
+		// Create Reverse String
 		var sb strings.Builder
-		sb.WriteString(empty)
 		for index := len(fileScanner.Text()) - 1; index >= 0; index-- {
 			sb.WriteByte(fileScanner.Text()[index])
 		}
+
+		// Replace all spelled numbers with digits
+		replacer := strings.NewReplacer(ForwardKey...)
+		partBNumStr := replacer.Replace(fileScanner.Text())
 
 		// Replace all spelled numbers with digits (reverse spelling)
 		replaceRev := strings.NewReplacer(ReverseKey...)
@@ -68,24 +66,17 @@ func main() {
 		paFirst := digits.FindAllString(fileScanner.Text(), -1)[0]
 		pbFirst := digits.FindAllString(partBNumStr, -1)[0]
 
-		// Get last digit
+		// Get last digits
 		paLast := digits.FindAllString(sb.String(), -1)[0]
 		pbLast := digits.FindAllString(partBNumStrRev, -1)[0]
 
-		//		fmt.Println(fileScanner.Text(), "[", paFirst, paLast, "]  (", pbFirst, pbLast, ")")
-
-		a, _ := strconv.Atoi(paFirst)
-		b, _ := strconv.Atoi(paLast)
-		aa, _ := strconv.Atoi(pbFirst)
-		bb, _ := strconv.Atoi(pbLast)
-
-		partACal := (a * 10) + b
-		partBCal := (aa * 10) + bb
+		//fmt.Println(fileScanner.Text(), "[", paFirst, paLast, "]  (", pbFirst, pbLast, ")")
 
 		// Add to running totals
+		partACal, _ := strconv.Atoi(paFirst + paLast)
+		partBCal, _ := strconv.Atoi(pbFirst + pbLast)
 		partATotal += partACal
 		partBTotal += partBCal
-
 	}
 	readFile.Close()
 
