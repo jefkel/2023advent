@@ -55,7 +55,7 @@ func main() {
 				var colour string
 				fmt.Sscanf(ss, "%d %s", &cubes, &colour)
 				cubeCounter[colour] += cubes
-				//FindMax
+				//update max for each colour
 				if cubeCounter[colour] > maxCubes[colour] {
 					maxCubes[colour] = cubeCounter[colour]
 				}
